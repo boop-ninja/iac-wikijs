@@ -1,3 +1,3 @@
 # Infra Kube Wikijs
 
-WikiJS deployed to Kubernetes infrastructure. 
+WikiJS deployed to Kubernetes infrastructure.
