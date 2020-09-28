@@ -7,9 +7,9 @@ resource "kubernetes_deployment" "i" {
   ]
 
   metadata {
-    name      = local.prefix
+    name      = var.namespace
     labels    = local.common_labels
-    namespace = local.namespace
+    namespace = var.namespace
   }
 
   spec {
@@ -19,14 +19,14 @@ resource "kubernetes_deployment" "i" {
 
     template {
       metadata {
-        namespace = local.namespace
+        namespace = var.namespace
         labels    = local.common_labels
       }
 
       spec {
         container {
-          name              = "${local.prefix}-web"
-          image             = "requarks/wiki:2.5"
+          name              = "${var.namespace}-web"
+          image             = var.docker_images.application
           image_pull_policy = "Always"
           env_from {
             config_map_ref {
@@ -45,8 +45,8 @@ resource "kubernetes_deployment" "i" {
           }
         }
         container {
-          name  = "${local.prefix}-database"
-          image = "postgres:12"
+          name  = "${var.namespace}-database"
+          image = var.docker_images.database
 
           env_from {
             config_map_ref {
@@ -73,7 +73,7 @@ resource "kubernetes_deployment" "i" {
           }
         }
         volume {
-          name = "${local.prefix}-pgdata-persistent-storage"
+          name = "${var.namespace}-pgdata-persistent-storage"
           persistent_volume_claim {
             claim_name = local.pvc_name
           }
