@@ -134,7 +134,7 @@ resource "kubernetes_service" "i_web" {
       target_port = 3000
     }
 
-    type = "LoadBalancer"
+    type = "ClusterIP"
   }
 }
 
@@ -157,9 +157,17 @@ resource "kubernetes_ingress" "i" {
   }
 
   spec {
-    backend {
-      service_name = "${local.prefix}-web"
-      service_port = "web"
+    rule {
+      host = var.dns_hostname
+      http {
+        path {
+          backend {
+            service_name = "${local.prefix}-web"
+            service_port = "web"
+          }
+          path = "/*"
+        }
+      }
     }
 
     tls {
