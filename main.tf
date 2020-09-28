@@ -150,9 +150,9 @@ resource "kubernetes_ingress" "i" {
     labels    = local.common_labels
     annotations = {
       "kubernetes.io/ingress.class"                   = "traefik"
-      "ingress.kubernetes.io/allowed-hosts"           = "dnd.boop.ninja,wiki.boop.ninja"
+      "ingress.kubernetes.io/allowed-hosts"           = var.dns_hostname
       "ingress.kubernetes.io/custom-response-headers" = "Access-Control-Allow-Origin:*"
-      "ingress.kubernetes.io/custom-request-headers"  = "Origin:https://wiki.boop.ninja"
+      "ingress.kubernetes.io/custom-request-headers"  = "Origin:https://${var.dns_hostname}"
     }
   }
 
