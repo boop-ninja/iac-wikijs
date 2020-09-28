@@ -1,7 +1,7 @@
 resource "kubernetes_deployment" "i" {
   depends_on = [
-    kubernetes_namespace.i, 
-    kubernetes_config_map.i_web, 
+    kubernetes_namespace.i,
+    kubernetes_config_map.i_web,
     kubernetes_config_map.i_db,
     kubernetes_persistent_volume_claim.i
   ]
@@ -46,7 +46,7 @@ resource "kubernetes_deployment" "i" {
         }
         container {
           name  = "${local.prefix}-database"
-          image = "postgres:13"
+          image = "postgres:12"
 
           env_from {
             config_map_ref {
