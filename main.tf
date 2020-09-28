@@ -165,7 +165,7 @@ resource "kubernetes_ingress" "i" {
             service_name = "${local.prefix}-web"
             service_port = "web"
           }
-          path = "/*"
+          path = "/"
         }
       }
     }
