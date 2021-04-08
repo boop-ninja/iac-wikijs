@@ -8,12 +8,12 @@ provider "cloudflare" {
 }
 
 provider "kubernetes" {
-  load_config_file = "false"
-  insecure         = "true"
+  load_config_file = false
 
   host     = var.kube_host
-  username = var.kube_username
-  password = var.kube_password
+  client_certificate = base64decode(var.kube_crt)
+  client_key = base64decode(var.kube_key)
+  insecure = true
 }
 
 ##################################################################

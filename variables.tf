@@ -22,14 +22,11 @@ variable "kube_host" {
   description = "Kuberentes Host"
 }
 
-variable "kube_username" {
-  type        = string
-  description = "Kubernetes Username"
+variable "kube_crt" {
+  default = ""
 }
-
-variable "kube_password" {
-  type        = string
-  description = "Kubernetes Password"
+variable "kube_key" {
+  default = ""
 }
 
 ##################################################################
