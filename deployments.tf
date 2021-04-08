@@ -34,11 +34,11 @@ resource "kubernetes_deployment" "i" {
             }
           }
           resources {
-            limits {
+            limits = {
               cpu    = "0.5"
               memory = "1024Mi"
             }
-            requests {
+            requests = {
               cpu    = "0.05"
               memory = "256Mi"
             }
@@ -60,7 +60,7 @@ resource "kubernetes_deployment" "i" {
           }
 
           resources {
-            limits {
+            limits = {
               cpu    = "0.5"
               memory = "256Mi"
             }
