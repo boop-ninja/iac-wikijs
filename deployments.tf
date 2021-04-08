@@ -35,8 +35,8 @@ resource "kubernetes_deployment" "i" {
           }
           resources {
             limits {
-              cpu    = "0.1"
-              memory = "256Mi"
+              cpu    = "0.5"
+              memory = "1024Mi"
             }
             requests {
               cpu    = "0.05"
