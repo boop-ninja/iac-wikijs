@@ -2,12 +2,12 @@
 # Cloudflare Authentication
 ##################################################################
 
-variable cloudflare_email {
+variable "cloudflare_email" {
   type        = string
   description = "Cloudflare email for authentication"
 }
 
-variable cloudflare_api_token {
+variable "cloudflare_api_token" {
   type        = string
   description = "Cloudflare api token for authentication"
 }
@@ -17,17 +17,17 @@ variable cloudflare_api_token {
 ##################################################################
 
 
-variable kube_host {
+variable "kube_host" {
   type        = string
   description = "Kuberentes Host"
 }
 
-variable kube_username {
+variable "kube_username" {
   type        = string
   description = "Kubernetes Username"
 }
 
-variable kube_password {
+variable "kube_password" {
   type        = string
   description = "Kubernetes Password"
 }
@@ -36,12 +36,12 @@ variable kube_password {
 # Cloudflare Configurations
 ##################################################################
 
-variable dns_zone {
+variable "dns_zone" {
   type        = string
   description = "DNS Zone"
 }
 
-variable dns_hostname {
+variable "dns_hostname" {
   type        = string
   description = "DNS For Service"
 }
@@ -50,18 +50,18 @@ variable dns_hostname {
 # Application Configuration
 ##################################################################
 
-variable namespace {
+variable "namespace" {
   type        = string
   description = "Namespace of the deployment"
 }
 
-variable database_password {
+variable "database_password" {
   type        = string
   default     = "P@ssw0rd!"
   description = "Postgres Database Password"
 }
 
-variable docker_images {
+variable "docker_images" {
   type = map(any)
   default = {
     application = "requarks/wiki:2.5"

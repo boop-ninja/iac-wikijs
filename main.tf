@@ -125,7 +125,7 @@ resource "kubernetes_service" "i_web" {
   }
   spec {
     selector = {
-      app = "${kubernetes_deployment.i.metadata.0.labels.app}"
+      app = kubernetes_deployment.i.metadata.0.labels.app
     }
 
     port {
