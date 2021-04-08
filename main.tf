@@ -8,8 +8,6 @@ provider "cloudflare" {
 }
 
 provider "kubernetes" {
-  load_config_file = false
-
   host     = var.kube_host
   client_certificate = base64decode(var.kube_crt)
   client_key = base64decode(var.kube_key)
