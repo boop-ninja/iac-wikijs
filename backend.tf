@@ -5,7 +5,7 @@ terraform {
     organization = "boop-ninja"
 
     workspaces {
-      name = "infra-kube-wikijs"
+      name = "iac-wikijs"
     }
   }
 }

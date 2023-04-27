@@ -3,15 +3,14 @@
 ##################################################################
 
 provider "cloudflare" {
-  email     = var.cloudflare_email
-  api_token = var.cloudflare_api_token
+  api_token  = var.cloudflare_api_token
 }
 
 provider "kubernetes" {
-  host     = var.kube_host
+  host               = var.kube_host
   client_certificate = base64decode(var.kube_crt)
-  client_key = base64decode(var.kube_key)
-  insecure = true
+  client_key         = base64decode(var.kube_key)
+  insecure           = true
 }
 
 ##################################################################
@@ -141,7 +140,7 @@ resource "kubernetes_service" "i_web" {
 ##################################################################
 
 
-resource "kubernetes_ingress" "i" {
+resource "kubernetes_ingress_v1" "i" {
   metadata {
     name      = "${var.namespace}-web"
     namespace = var.namespace
@@ -151,6 +150,7 @@ resource "kubernetes_ingress" "i" {
       "ingress.kubernetes.io/allowed-hosts"           = var.dns_hostname
       "ingress.kubernetes.io/custom-response-headers" = "Access-Control-Allow-Origin:*"
       "ingress.kubernetes.io/custom-request-headers"  = "Origin:https://${var.dns_hostname}"
+      "cert-manager.io/cluster-issuer"                = "letsencrypt-prod"
     }
   }
 
@@ -160,8 +160,12 @@ resource "kubernetes_ingress" "i" {
       http {
         path {
           backend {
-            service_name = "${var.namespace}-web"
-            service_port = "web"
+            service {
+              name = "${var.namespace}-web"
+              port {
+                name = "web"
+              }
+            }
           }
           path = "/"
         }
@@ -169,7 +173,7 @@ resource "kubernetes_ingress" "i" {
     }
 
     tls {
-      secret_name = "wikijs-web-tls-cert-9kc6db6t7d"
+      secret_name = "wikijs-web-tls-cert"
     }
   }
 }
