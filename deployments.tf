@@ -33,6 +33,12 @@ resource "kubernetes_deployment" "i" {
               name = kubernetes_config_map.i_web.metadata.0.name
             }
           }
+
+          env_from {
+            secret_ref {
+              name = kubernetes_secret.i_web.metadata.0.name
+            }
+          }
           resources {
             limits = {
               cpu    = "0.5"
@@ -56,7 +62,12 @@ resource "kubernetes_deployment" "i" {
             config_map_ref {
               name = kubernetes_config_map.i_db.metadata.0.name
             }
+          }
 
+          env_from {
+            secret_ref {
+              name = kubernetes_secret.i_db.metadata.0.name
+            }
           }
 
           resources {
