@@ -42,6 +42,6 @@ resource "kubernetes_service" "i_database" {
     }
 
     cluster_ip = "None"
-    type = "ClusterIP"
+    type       = "ClusterIP"
   }
 }

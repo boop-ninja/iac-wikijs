@@ -71,7 +71,7 @@ resource "kubernetes_stateful_set" "d" {
           volume_mount {
             name       = local.database_volume_name
             mount_path = "/etc/mysql/conf.d"
-            sub_path = "conf"
+            sub_path   = "conf"
           }
         }
 
