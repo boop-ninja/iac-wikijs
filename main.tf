@@ -73,10 +73,15 @@ resource "kubernetes_config_map" "i_db" {
   }
 
   data = {
+    PGDATABASE = var.database_name
+    PGUSER     = var.database_user
+    PGPASSWORD = var.database_password
+
     POSTGRES_DB       = var.database_name
     POSTGRES_USER     = var.database_user
-    PGDATA            = "/var/lib/postgresql/data/pgdata"
     POSTGRES_PASSWORD = var.database_password
+
+    PGDATA            = "/var/lib/postgresql/data/pgdata"
   }
 }
 
