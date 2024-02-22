@@ -39,6 +39,12 @@ resource "kubernetes_stateful_set" "d" {
             }
           }
 
+          env_from {
+            secret_ref {
+              name = kubernetes_secret.i_db_root.metadata.0.name
+            }
+          }
+
           resources {
             limits = {
               cpu    = "0.5"
