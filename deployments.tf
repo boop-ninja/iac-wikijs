@@ -66,7 +66,10 @@ resource "kubernetes_deployment" "i" {
 resource "kubernetes_stateful_set" "d" {
   metadata {
     name      = "${var.namespace}-database"
-    labels    = local.common_labels
+    labels    = merge(local.common_labels, {
+      app = "database"
+      engine = "mysql"
+    })
     namespace = var.namespace
   }
 
@@ -83,21 +86,6 @@ resource "kubernetes_stateful_set" "d" {
       }
 
       spec {
-        # Add Init Container to create the path /var/lib/postgresql/data/pgdata if not exist and change the owner to 999
-        init_container {
-          name  = "init-chown-data"
-          image = "busybox"
-          command = [
-            "sh",
-            "-c",
-            "mkdir -p /var/lib/postgresql/data/pgdata && chown -R 999:999 /var/lib/postgresql/data/pgdata"
-          ]
-          volume_mount {
-            name       = "wikijs-pgdata-persistent-storage"
-            mount_path = "/var/lib/postgresql/data"
-          }
-        }
-
         container {
 
           name  = "${var.namespace}-database"
@@ -124,7 +112,7 @@ resource "kubernetes_stateful_set" "d" {
 
           port {
             name           = "postgres"
-            container_port = 5432
+            container_port = 3307
           }
 
           volume_mount {
@@ -135,17 +123,9 @@ resource "kubernetes_stateful_set" "d" {
 
           volume_mount {
             name       = "wikijs-pgdata-persistent-storage"
-            mount_path = "/var/lib/postgresql/data"
-            sub_path   = "pgdata"
+            mount_path = "/var/lib/mysql"
+            sub_path   = "data"
             read_only  = false
-          }
-        }
-
-        volume {
-          name = "db-init-script"
-
-          config_map {
-            name = kubernetes_config_map.i_db_init.metadata.0.name
           }
         }
 
@@ -158,6 +138,6 @@ resource "kubernetes_stateful_set" "d" {
         }
       }
     }
-    service_name = ""
+    service_name = "database"
   }
 }
