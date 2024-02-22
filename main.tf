@@ -26,7 +26,7 @@ resource "kubernetes_secret" "i_db" {
     labels    = local.common_labels
   }
   data = {
-    POSTGRES_PASSWORD = var.database_password
+    MYSQL_PASSWORD = var.database_password
   }
 }
 
