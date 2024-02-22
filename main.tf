@@ -33,7 +33,7 @@ resource "kubernetes_secret" "i_db" {
 resource "kubernetes_secret" "i_web" {
   depends_on = [kubernetes_namespace.i]
   metadata {
-    name      = "${var.namespace}-database-secret"
+    name      = "${var.namespace}-web-secret"
     namespace = var.namespace
     labels    = local.common_labels
   }
