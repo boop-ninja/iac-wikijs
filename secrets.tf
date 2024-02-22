@@ -4,6 +4,7 @@
 
 resource "random_password" "a" {
   length = 36
+  override_special = "-_.,"
 }
 
 resource "kubernetes_secret" "i_db" {
@@ -32,6 +33,7 @@ resource "kubernetes_secret" "i_web" {
 
 resource "random_password" "p" {
   length = 36
+  override_special = "-_.,"
 }
 
 resource "kubernetes_secret" "i_db_root" {

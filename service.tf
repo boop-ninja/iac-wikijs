@@ -37,8 +37,8 @@ resource "kubernetes_service" "i_database" {
 
     port {
       name        = "database"
-      port        = 3307
-      target_port = 3307
+      port        = 3306
+      target_port = 3306
     }
 
     type = "ClusterIP"

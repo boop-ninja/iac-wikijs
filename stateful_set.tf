@@ -27,6 +27,11 @@ resource "kubernetes_stateful_set" "d" {
           name  = "${var.namespace}-database"
           image = var.docker_images.database
 
+          env {
+            name  = "MYSQL_ALLOW_EMPTY_PASSWORD"
+            value = "1"
+          }
+
           env_from {
             config_map_ref {
               name = kubernetes_config_map.i_db.metadata.0.name
@@ -54,7 +59,7 @@ resource "kubernetes_stateful_set" "d" {
 
           port {
             name           = "database"
-            container_port = 3307
+            container_port = 3306
           }
 
           volume_mount {
@@ -62,6 +67,11 @@ resource "kubernetes_stateful_set" "d" {
             mount_path = "/var/lib/mysql"
             sub_path   = "data"
             read_only  = false
+          }
+          volume_mount {
+            name       = local.database_volume_name
+            mount_path = "/etc/mysql/conf.d"
+            sub_path = "conf"
           }
         }
 
