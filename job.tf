@@ -29,10 +29,6 @@ resource "kubernetes_job" "init_db" {
             name = "PGPASSWORD"
             value = var.database_password
           }
-          volume_mount {
-            name       = "wikijs-pgdata-persistent-storage"
-            mount_path = "/var/lib/postgresql/data"
-          }
         }
         restart_policy = "Never"
       }
