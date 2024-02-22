@@ -1,21 +1,4 @@
 ##################################################################
-# Cloudflare Authentication
-##################################################################
-
-variable "cloudflare_email" {
-  type        = string
-  description = "Cloudflare email for authentication"
-}
-
-variable "cloudflare_api_token" {
-  type        = string
-  description = "Cloudflare api token for authentication"
-}
-
-
-
-
-##################################################################
 # Cloudflare Configurations
 ##################################################################
 
