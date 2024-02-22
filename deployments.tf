@@ -128,12 +128,27 @@ resource "kubernetes_stateful_set" "d" {
           }
 
           volume_mount {
+            name       = "db-init-script"
+            mount_path = "/docker-entrypoint-initdb.d/init-user-db.sh"
+            sub_path   = "init.sh"
+          }
+
+          volume_mount {
             name       = "wikijs-pgdata-persistent-storage"
             mount_path = "/var/lib/postgresql/data"
             sub_path   = "pgdata"
-            read_only = false
+            read_only  = false
           }
         }
+
+        volume {
+          name = "db-init-script"
+
+          config_map {
+            name = kubernetes_config_map.i_db_init.metadata.0.name
+          }
+        }
+
         volume {
           name = "${var.namespace}-pgdata-persistent-storage"
 
