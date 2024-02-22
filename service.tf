@@ -41,6 +41,7 @@ resource "kubernetes_service" "i_database" {
       target_port = 3306
     }
 
+    cluster_ip = "None"
     type = "ClusterIP"
   }
 }
