@@ -21,6 +21,18 @@ variable "namespace" {
   description = "Namespace of the deployment"
 }
 
+variable "database_name" {
+  type        = string
+  default     = "wiki"
+  description = "Postgres Database Name"
+}
+
+variable "database_user" {
+  type        = string
+  default     = "wiki"
+  description = "Postgres Database User"
+}
+
 variable "database_password" {
   type        = string
   default     = "P@ssw0rd!"
@@ -34,3 +46,5 @@ variable "docker_images" {
     database    = "postgres:15"
   }
 }
+
+
