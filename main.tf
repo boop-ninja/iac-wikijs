@@ -59,7 +59,7 @@ resource "kubernetes_config_map" "i_web" {
     DB_HOST     = format("%s.%s.svc.cluster.local", kubernetes_service.i_database.metadata[0].name, var.namespace)
     DB_PORT     = "5432"
     DB_NAME     = var.namespace
-    DB_USER     = var.namespace
+    DB_USER     = "postgres"
     HA_ACTIVE   = "true"
   }
 }
@@ -74,7 +74,7 @@ resource "kubernetes_config_map" "i_db" {
 
   data = {
     POSTGRES_DB       = var.namespace
-    POSTGRES_USER     = var.namespace
+    POSTGRES_USER     = "postgres"
     PGDATA            = "/var/lib/postgresql/data/pgdata"
     POSTGRES_PASSWORD = var.database_password
   }
