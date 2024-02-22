@@ -59,6 +59,6 @@ resource "kubernetes_config_map" "i_db_init" {
   }
 
   data = {
-    init.sh = local.script_file_with_vars
+    "init.sh" = local.script_file_with_vars
   }
 }
