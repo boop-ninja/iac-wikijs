@@ -63,7 +63,7 @@ resource "kubernetes_deployment" "i" {
 }
 
 # Database Deployment
-resource "kubernetes_deployment" "d" {
+resource "kubernetes_stateful_set" "d" {
   metadata {
     name      = "${var.namespace}-database"
     labels    = local.common_labels
@@ -125,5 +125,6 @@ resource "kubernetes_deployment" "d" {
         }
       }
     }
+    service_name = ""
   }
 }
