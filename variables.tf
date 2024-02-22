@@ -43,7 +43,7 @@ variable "docker_images" {
   type = map(any)
   default = {
     application = "requarks/wiki:2.5"
-    database    = "postgres:15"
+    database    = "postgres:16"
   }
 }
 
