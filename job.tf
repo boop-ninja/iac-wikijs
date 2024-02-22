@@ -1,4 +1,6 @@
 resource "kubernetes_job" "init_db" {
+  depends_on = [kubernetes_stateful_set.d]
+
   metadata {
     name = "init-db"
     labels = {
