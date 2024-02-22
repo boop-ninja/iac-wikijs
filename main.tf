@@ -60,9 +60,7 @@ resource "kubernetes_config_map" "i_web" {
     DB_PORT     = "5432"
     DB_NAME     = var.namespace
     DB_USER     = var.namespace
-    DB_PASSWORD = var.database_password
     HA_ACTIVE   = "true"
-
   }
 }
 
