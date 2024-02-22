@@ -2,11 +2,6 @@
 # Configurations
 ##################################################################
 
-variable "dns_zone" {
-  type        = string
-  description = "DNS Zone"
-}
-
 variable "dns_hostname" {
   type        = string
   description = "DNS For Service"
