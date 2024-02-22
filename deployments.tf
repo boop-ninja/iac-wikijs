@@ -113,7 +113,8 @@ resource "kubernetes_deployment" "d" {
 
           volume_mount {
             name       = "wikijs-pgdata-persistent-storage"
-            mount_path = "/var/lib/postgresql/data/pgdata"
+            mount_path = "/var/lib/postgresql/data"
+            sub_path   = "pgdata"
           }
         }
         volume {
