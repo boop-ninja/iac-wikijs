@@ -26,7 +26,7 @@ resource "kubernetes_secret" "i_db" {
     labels    = local.common_labels
   }
   data = {
-    POSTGRES_PASSWORD = base64encode(var.database_password)
+    POSTGRES_PASSWORD = var.database_password
   }
 }
 
@@ -38,7 +38,7 @@ resource "kubernetes_secret" "i_web" {
     labels    = local.common_labels
   }
   data = {
-    DB_PASSWORD = base64encode(var.database_password)
+    DB_PASSWORD = var.database_password
   }
 }
 
@@ -66,92 +66,6 @@ resource "kubernetes_persistent_volume_claim" "i" {
 }
 
 
-##################################################################
-# Services
-##################################################################
-
-resource "kubernetes_service" "i_web" {
-  metadata {
-    name      = "${var.namespace}-web"
-    namespace = var.namespace
-    labels    = local.common_labels
-  }
-  spec {
-    selector = {
-      target = local.common_labels.target
-      app    = "web"
-    }
-
-    port {
-      name        = "web"
-      port        = 80
-      target_port = 3000
-    }
-
-    type = "ClusterIP"
-  }
-}
-resource "kubernetes_service" "i_database" {
-  metadata {
-    name      = "${var.namespace}-database"
-    namespace = var.namespace
-    labels    = local.common_labels
-  }
-  spec {
-    selector = {
-      target = local.common_labels.target
-      app    = "database"
-    }
-
-    port {
-      name        = "web"
-      port        = 5432
-      target_port = 5432
-    }
-
-    type = "ClusterIP"
-  }
-}
-
-##################################################################
-# Ingress
-##################################################################
 
 
-resource "kubernetes_ingress_v1" "i" {
-  metadata {
-    name      = "${var.namespace}-web"
-    namespace = var.namespace
-    labels    = local.common_labels
-    annotations = {
-      "kubernetes.io/ingress.class"                   = "traefik"
-      "ingress.kubernetes.io/allowed-hosts"           = var.dns_hostname
-      "ingress.kubernetes.io/custom-response-headers" = "Access-Control-Allow-Origin:*"
-      "ingress.kubernetes.io/custom-request-headers"  = "Origin:https://${var.dns_hostname}"
-    }
-  }
-
-  spec {
-    rule {
-      host = var.dns_hostname
-      http {
-        path {
-          backend {
-            service {
-              name = "${var.namespace}-web"
-              port {
-                name = "web"
-              }
-            }
-          }
-          path = "/"
-        }
-      }
-    }
-
-    tls {
-      secret_name = "wikijs-web-tls-cert"
-    }
-  }
-}
 
