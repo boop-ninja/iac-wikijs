@@ -20,7 +20,7 @@ resource "kubernetes_deployment" "i" {
     template {
       metadata {
         namespace = var.namespace
-        labels    = merge(local.common_labels, {
+        labels = merge(local.common_labels, {
           app = "web"
         })
       }
@@ -77,7 +77,7 @@ resource "kubernetes_deployment" "d" {
 
     template {
       metadata {
-        labels    = merge(local.common_labels, {
+        labels = merge(local.common_labels, {
           app = "database"
         })
       }

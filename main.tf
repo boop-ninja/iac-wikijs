@@ -116,8 +116,8 @@ resource "kubernetes_service" "i_web" {
   }
   spec {
     selector = {
-      target = try(kubernetes_deployment.i.metadata.0.labels["target"], var.namespace)
-      app = "web"
+      target = local.common_labels.target
+      app    = "web"
     }
 
     port {
@@ -137,8 +137,8 @@ resource "kubernetes_service" "i_database" {
   }
   spec {
     selector = {
-      target = try(kubernetes_deployment.i.metadata.0.labels["target"], var.namespace)
-      app = "database"
+      target = local.common_labels.target
+      app    = "database"
     }
 
     port {
