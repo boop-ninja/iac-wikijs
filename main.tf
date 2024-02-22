@@ -56,7 +56,7 @@ resource "kubernetes_config_map" "i_web" {
 
   data = {
     DB_TYPE     = "postgres"
-    DB_HOST     = format("%s.%s.svc.cluster.local", kubernetes_service.i_database.metadata[0].name, var.namespace)
+    DB_HOST     = local.database_host
     DB_PORT     = "5432"
     DB_NAME     = var.database_name
     DB_USER     = var.database_user
