@@ -53,7 +53,7 @@ resource "kubernetes_stateful_set" "d" {
           resources {
             limits = {
               cpu    = "0.5"
-              memory = "256Mi"
+              memory = "1Gi"
             }
           }
 
