@@ -12,22 +12,8 @@ variable "cloudflare_api_token" {
   description = "Cloudflare api token for authentication"
 }
 
-##################################################################
-# Kubernetes Authentication
-##################################################################
 
 
-variable "kube_host" {
-  type        = string
-  description = "Kuberentes Host"
-}
-
-variable "kube_crt" {
-  default = ""
-}
-variable "kube_key" {
-  default = ""
-}
 
 ##################################################################
 # Cloudflare Configurations
