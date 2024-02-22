@@ -28,12 +28,6 @@ variable "database_user" {
   description = "Postgres Database User"
 }
 
-variable "database_password" {
-  type        = string
-  default     = "P@ssw0rd!"
-  description = "Postgres Database Password"
-}
-
 variable "docker_images" {
   type = map(any)
   default = {

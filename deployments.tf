@@ -30,6 +30,7 @@ resource "kubernetes_deployment" "i" {
           name              = "${var.namespace}-web"
           image             = var.docker_images.application
           image_pull_policy = "Always"
+
           env_from {
             config_map_ref {
               name = kubernetes_config_map.i_web.metadata.0.name
@@ -41,6 +42,9 @@ resource "kubernetes_deployment" "i" {
               name = kubernetes_secret.i_web.metadata.0.name
             }
           }
+
+
+
           resources {
             limits = {
               cpu    = "0.5"

@@ -2,6 +2,10 @@
 # Secrets
 ##################################################################
 
+resource "random_password" "a" {
+  length = 36
+}
+
 resource "kubernetes_secret" "i_db" {
   depends_on = [kubernetes_namespace.i]
   metadata {
@@ -10,7 +14,7 @@ resource "kubernetes_secret" "i_db" {
     labels    = local.common_labels
   }
   data = {
-    MYSQL_PASSWORD = var.database_password
+    MYSQL_PASSWORD = random_password.a.result
   }
 }
 
@@ -22,7 +26,7 @@ resource "kubernetes_secret" "i_web" {
     labels    = local.common_labels
   }
   data = {
-    DB_PASSWORD = var.database_password
+    DB_PASSWORD = random_password.a.result
   }
 }
 

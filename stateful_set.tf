@@ -74,6 +74,6 @@ resource "kubernetes_stateful_set" "d" {
         }
       }
     }
-    service_name = ""
+    service_name = kubernetes_service.i_database.metadata.0.name
   }
 }
