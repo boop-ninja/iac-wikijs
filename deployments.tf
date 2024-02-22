@@ -83,7 +83,23 @@ resource "kubernetes_stateful_set" "d" {
       }
 
       spec {
+        # Add Init Container to create the path /var/lib/postgresql/data/pgdata if not exist and change the owner to 999
+        init_container {
+          name  = "init-chown-data"
+          image = "busybox"
+          command = [
+            "sh",
+            "-c",
+            "mkdir -p /var/lib/postgresql/data/pgdata && chown -R 999:999 /var/lib/postgresql/data/pgdata"
+          ]
+          volume_mount {
+            name       = "wikijs-pgdata-persistent-storage"
+            mount_path = "/var/lib/postgresql/data"
+          }
+        }
+
         container {
+
           name  = "${var.namespace}-database"
           image = var.docker_images.database
 
@@ -115,10 +131,12 @@ resource "kubernetes_stateful_set" "d" {
             name       = "wikijs-pgdata-persistent-storage"
             mount_path = "/var/lib/postgresql/data"
             sub_path   = "pgdata"
+            read_only = false
           }
         }
         volume {
           name = "${var.namespace}-pgdata-persistent-storage"
+
           persistent_volume_claim {
             claim_name = local.pvc_name
           }
