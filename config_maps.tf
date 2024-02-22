@@ -13,7 +13,7 @@ resource "kubernetes_config_map" "i_web" {
   data = {
     DB_TYPE   = "mysql"
     DB_HOST   = local.database_host
-    DB_PORT   = "3307"
+    DB_PORT   = local.database_port
     DB_NAME   = var.database_name
     DB_USER   = var.database_user
     HA_ACTIVE = "true"

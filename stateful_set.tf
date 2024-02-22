@@ -59,7 +59,7 @@ resource "kubernetes_stateful_set" "d" {
 
           port {
             name           = "database"
-            container_port = 3306
+            container_port = local.database_port
           }
 
           volume_mount {

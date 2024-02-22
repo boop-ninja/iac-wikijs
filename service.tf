@@ -37,8 +37,8 @@ resource "kubernetes_service" "i_database" {
 
     port {
       name        = "database"
-      port        = 3306
-      target_port = 3306
+      port        = local.database_port
+      target_port = local.database_port
     }
 
     cluster_ip = "None"
