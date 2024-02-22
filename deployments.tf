@@ -20,7 +20,9 @@ resource "kubernetes_deployment" "i" {
     template {
       metadata {
         namespace = var.namespace
-        labels    = local.common_labels
+        labels    = merge(local.common_labels, {
+          app = "web"
+        })
       }
 
       spec {
@@ -54,6 +56,33 @@ resource "kubernetes_deployment" "i" {
             container_port = 3000
           }
         }
+
+      }
+    }
+  }
+}
+
+# Database Deployment
+resource "kubernetes_deployment" "d" {
+  metadata {
+    name      = "${var.namespace}-database"
+    labels    = local.common_labels
+    namespace = var.namespace
+  }
+
+  spec {
+    selector {
+      match_labels = local.common_labels
+    }
+
+    template {
+      metadata {
+        labels    = merge(local.common_labels, {
+          app = "database"
+        })
+      }
+
+      spec {
         container {
           name  = "${var.namespace}-database"
           image = var.docker_images.database

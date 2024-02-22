@@ -1,41 +1,4 @@
 ##################################################################
-# Provider Configurations
-##################################################################
-
-provider "cloudflare" {
-  api_token = var.cloudflare_api_token
-}
-
-provider "kubernetes" {
-  host               = var.kube_host
-  client_certificate = base64decode(var.kube_crt)
-  client_key         = base64decode(var.kube_key)
-  insecure           = true
-}
-
-##################################################################
-# Domain Name
-##################################################################
-
-
-data "cloudflare_zones" "i" {
-  filter {
-    name   = var.dns_zone
-    status = "active"
-    paused = false
-  }
-}
-
-resource "cloudflare_record" "i" {
-  zone_id = lookup(data.cloudflare_zones.i.zones[0], "id")
-  name    = replace(var.dns_hostname, ".${var.dns_zone}", "")
-  value   = var.dns_zone
-  type    = "CNAME"
-  ttl     = 1
-  proxied = true
-}
-
-##################################################################
 # Namespace
 ##################################################################
 
@@ -84,7 +47,7 @@ resource "kubernetes_secret" "i_web" {
 ##################################################################
 
 resource "kubernetes_config_map" "i_web" {
-  depends_on = [kubernetes_namespace.i]
+  depends_on = [kubernetes_namespace.i, kubernetes_service.i_database]
   metadata {
     name      = "${var.namespace}-web-config"
     namespace = var.namespace
@@ -93,11 +56,13 @@ resource "kubernetes_config_map" "i_web" {
 
   data = {
     DB_TYPE     = "postgres"
-    DB_HOST     = "127.0.0.1"
+    DB_HOST     = format("%s.%s.svc.cluster.local", kubernetes_service.i_database.metadata[0].name, var.namespace)
     DB_PORT     = "5432"
     DB_NAME     = var.namespace
     DB_USER     = var.namespace
     DB_PASSWORD = var.database_password
+    HA_ACTIVE   = "true"
+
   }
 }
 
@@ -151,13 +116,35 @@ resource "kubernetes_service" "i_web" {
   }
   spec {
     selector = {
-      app = kubernetes_deployment.i.metadata.0.labels.app
+      target = try(kubernetes_deployment.i.metadata.0.labels["target"], var.namespace)
+      app = "web"
     }
 
     port {
       name        = "web"
       port        = 80
       target_port = 3000
+    }
+
+    type = "ClusterIP"
+  }
+}
+resource "kubernetes_service" "i_database" {
+  metadata {
+    name      = "${var.namespace}-database"
+    namespace = var.namespace
+    labels    = local.common_labels
+  }
+  spec {
+    selector = {
+      target = try(kubernetes_deployment.i.metadata.0.labels["target"], var.namespace)
+      app = "database"
+    }
+
+    port {
+      name        = "web"
+      port        = 5432
+      target_port = 5432
     }
 
     type = "ClusterIP"
@@ -179,7 +166,6 @@ resource "kubernetes_ingress_v1" "i" {
       "ingress.kubernetes.io/allowed-hosts"           = var.dns_hostname
       "ingress.kubernetes.io/custom-response-headers" = "Access-Control-Allow-Origin:*"
       "ingress.kubernetes.io/custom-request-headers"  = "Origin:https://${var.dns_hostname}"
-      "cert-manager.io/cluster-issuer"                = "letsencrypt-prod"
     }
   }
 
