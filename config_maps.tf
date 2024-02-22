@@ -37,6 +37,8 @@ resource "kubernetes_config_map" "i_db" {
     POSTGRES_USER     = var.database_user
     POSTGRES_PASSWORD = var.database_password
 
+    POSTGRES_INITDB_ARGS="--auth-host=md5"
+
     PGDATA = "/var/lib/postgresql/data/pgdata"
   }
 }
