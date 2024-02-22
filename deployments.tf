@@ -65,9 +65,9 @@ resource "kubernetes_deployment" "i" {
 # Database Deployment
 resource "kubernetes_stateful_set" "d" {
   metadata {
-    name      = "${var.namespace}-database"
-    labels    = merge(local.common_labels, {
-      app = "database"
+    name = "${var.namespace}-database"
+    labels = merge(local.common_labels, {
+      app    = "database"
       engine = "mysql"
     })
     namespace = var.namespace
@@ -111,18 +111,12 @@ resource "kubernetes_stateful_set" "d" {
           }
 
           port {
-            name           = "postgres"
+            name           = "database"
             container_port = 3307
           }
 
           volume_mount {
-            name       = "db-init-script"
-            mount_path = "/docker-entrypoint-initdb.d/init-user-db.sh"
-            sub_path   = "init.sh"
-          }
-
-          volume_mount {
-            name       = "wikijs-pgdata-persistent-storage"
+            name       = "wikijs-database-persistent-storage"
             mount_path = "/var/lib/mysql"
             sub_path   = "data"
             read_only  = false
@@ -130,7 +124,7 @@ resource "kubernetes_stateful_set" "d" {
         }
 
         volume {
-          name = "${var.namespace}-pgdata-persistent-storage"
+          name = "${var.namespace}-database-persistent-storage"
 
           persistent_volume_claim {
             claim_name = local.pvc_name

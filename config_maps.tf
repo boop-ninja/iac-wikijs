@@ -29,7 +29,7 @@ resource "kubernetes_config_map" "i_db" {
   }
 
   data = {
-    MYSQL_DATABASE       = var.database_name
+    MYSQL_DATABASE = var.database_name
     MYSQL_USER     = var.database_user
     MYSQL_PASSWORD = var.database_password
   }

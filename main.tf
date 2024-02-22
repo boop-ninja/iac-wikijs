@@ -50,7 +50,7 @@ resource "kubernetes_secret" "i_web" {
 
 resource "kubernetes_persistent_volume_claim" "i" {
   metadata {
-    name      = "${var.namespace}-pgdata-pv-claim"
+    name      = "${var.namespace}-database-pv-claim"
     namespace = var.namespace
     labels    = local.common_labels
   }
