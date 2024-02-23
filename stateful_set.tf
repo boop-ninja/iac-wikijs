@@ -7,7 +7,7 @@ resource "kubernetes_manifest" "wikijs_innodbcluster" {
       namespace = "wikijs"
     }
     spec = {
-      instances        = 2
+      instances        = 1
       secretName       = kubernetes_secret.i_db_root.metadata.0.name
       version          = "8.3.0"
       tlsUseSelfSigned = true
