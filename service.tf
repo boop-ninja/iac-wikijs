@@ -31,17 +31,17 @@ resource "kubernetes_service" "i_database" {
   }
   spec {
     selector = {
-      "app.kubernetes.io/component"="database"
-      "appkubernetes.io/created-by"="mysql-operator"
+      "app.kubernetes.io/component"   = "database"
+      "appkubernetes.io/created-by"   = "mysql-operator"
+      "mysql.oracle.com/cluster-role" = "PRIMARY"
     }
 
     port {
-      name        = "database"
+      name        = "mysql"
       port        = local.database_port
       target_port = local.database_port
     }
 
-    cluster_ip = "None"
-    type       = "ClusterIP"
+    type = "ClusterIP"
   }
 }
