@@ -23,7 +23,7 @@ resource "kubernetes_manifest" "wikijs_innodbcluster" {
         [mysqld]
         max_connections =  200
         bind-address = 0.0.0.0
-        default_authentication_plugin = mysql_native_password
+        default_authentication_plugin = caching_sha2_password
         EOT
       service = {
         type = "ClusterIP"
