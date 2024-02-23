@@ -17,7 +17,7 @@ resource "kubernetes_config_map" "i_web" {
     DB_NAME   = var.database_name
     DB_USER   = "wiki"
     HA_ACTIVE = "true"
-    DB_SSL    = "true"
+    DB_SSL    = "1"
   }
 }
 
