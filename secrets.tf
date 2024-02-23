@@ -27,7 +27,7 @@ resource "kubernetes_secret" "i_web" {
     labels    = local.common_labels
   }
   data = {
-    DB_PASSWORD = random_password.a.result
+    DB_PASSWORD = random_password.p.result
   }
 }
 
