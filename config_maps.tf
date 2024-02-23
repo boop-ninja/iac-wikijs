@@ -15,7 +15,7 @@ resource "kubernetes_config_map" "i_web" {
     DB_HOST   = local.database_host
     DB_PORT   = local.database_port
     DB_NAME   = var.database_name
-    DB_USER   = var.database_user
+    DB_USER   = "wiki"
     HA_ACTIVE = "true"
   }
 }

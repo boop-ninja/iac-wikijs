@@ -43,8 +43,6 @@ resource "kubernetes_deployment" "i" {
             }
           }
 
-
-
           resources {
             limits = {
               cpu    = "0.5"
