@@ -44,7 +44,7 @@ resource "kubernetes_secret" "i_db_root" {
     labels    = local.common_labels
   }
   data = {
-    MYSQL_ROOT_PASSWORD = random_password.p.result
+    rootPassword = random_password.p.result
   }
 }
 
