@@ -31,8 +31,8 @@ resource "kubernetes_service" "i_database" {
   }
   spec {
     selector = {
-      target = local.common_labels.target
-      app    = "database"
+      "app.kubernetes.io/component"=database
+      "appkubernetes.io/created-by"=mysql-operator
     }
 
     port {
