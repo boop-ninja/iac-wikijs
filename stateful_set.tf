@@ -11,6 +11,14 @@ resource "kubernetes_manifest" "wikijs_innodbcluster" {
       secretName       = kubernetes_secret.i_db_root.metadata.0.name
       version          = "8.0.36"
       tlsUseSelfSigned = true
+      datadirVolumeClaimTemplate = {
+        accessModes = ["ReadWriteOnce"]
+        resources = {
+          requests = {
+            storage = "20Gi"
+          }
+        }
+      }
       mycnf            = <<-EOT
         [mysqld]
         max_connections =  200
