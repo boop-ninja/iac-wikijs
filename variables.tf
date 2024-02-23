@@ -24,7 +24,7 @@ variable "database_name" {
 
 variable "database_user" {
   type        = string
-  default     = "wiki"
+  default     = "root"
   description = "Postgres Database User"
 }
 
