@@ -9,7 +9,7 @@ resource "kubernetes_manifest" "wikijs_innodbcluster" {
     spec = {
       instances        = 2
       secretName       = kubernetes_secret.i_db_root.metadata.0.name
-      version          = "8.0.36"
+      version          = "8.3.0"
       tlsUseSelfSigned = true
       datadirVolumeClaimTemplate = {
         accessModes = ["ReadWriteOnce"]
