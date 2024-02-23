@@ -4,6 +4,6 @@ locals {
   common_labels = {
     target = var.namespace
   }
-  database_host = format("%s.%s.svc.cluster.local", "wikijs-innodbcluster", var.namespace)
+  database_host = format("%s.%s.svc.cluster.local", "wikijs-database", var.namespace)
   database_port = 3306
 }
