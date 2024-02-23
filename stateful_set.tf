@@ -19,10 +19,11 @@ resource "kubernetes_manifest" "wikijs_innodbcluster" {
           }
         }
       }
-      mycnf            = <<-EOT
+      mycnf = <<-EOT
+        bind-address = 0.0.0.0
+
         [mysqld]
         max_connections =  200
-        bind-address = 0.0.0.0
         default_authentication_plugin = caching_sha2_password
         EOT
       service = {
