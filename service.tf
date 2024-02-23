@@ -31,8 +31,8 @@ resource "kubernetes_service" "i_database" {
   }
   spec {
     selector = {
-      "app.kubernetes.io/component"=database
-      "appkubernetes.io/created-by"=mysql-operator
+      "app.kubernetes.io/component"="database"
+      "appkubernetes.io/created-by"="mysql-operator"
     }
 
     port {
