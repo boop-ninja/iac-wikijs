@@ -3,7 +3,7 @@ resource "kubernetes_manifest" "wikijs_innodbcluster" {
     apiVersion = "mysql.oracle.com/v2"
     kind       = "InnoDBCluster"
     metadata = {
-      name      = "wikijs-innodbcluster"
+      name      = "wikijs-innodb-cluster"
       namespace = "wikijs"
     }
     spec = {
