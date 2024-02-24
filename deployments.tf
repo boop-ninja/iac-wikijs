@@ -2,8 +2,7 @@ resource "kubernetes_deployment" "i" {
   depends_on = [
     kubernetes_namespace.i,
     kubernetes_config_map.i_web,
-    kubernetes_config_map.i_db,
-    kubernetes_persistent_volume_claim.i
+    kubernetes_config_map.i_db
   ]
 
   metadata {
