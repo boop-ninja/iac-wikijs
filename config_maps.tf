@@ -13,10 +13,10 @@ resource "kubernetes_config_map" "i_web" {
   data = {
     "config.yaml" = yamlencode({
       db = {
-        type     = mysql
-        port     = 3306
-        user     = wiki
-        db       = wiki
+        type     = "mysql"
+        port     = "3306"
+        user     = "wiki"
+        db       = "wiki"
         ssl      = true
         host     = local.database_host
         port     = local.database_port
