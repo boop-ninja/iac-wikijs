@@ -16,8 +16,6 @@ resource "kubernetes_deployment" "i" {
       match_labels = local.common_labels
     }
 
-
-
     template {
 
       metadata {
@@ -32,14 +30,6 @@ resource "kubernetes_deployment" "i" {
           name = "config"
           config_map {
             name = kubernetes_config_map.i_web.metadata.0.name
-          }
-        }
-
-        # mount tls secret
-        volume {
-          name = "tls"
-          secret {
-            secret_name = kubernetes_secret.i_web.metadata.0.name
           }
         }
 
@@ -74,7 +64,7 @@ resource "kubernetes_deployment" "i" {
           volume_mount {
             mount_path = "/app/db_pass"
             name       = "db-pass"
-            sub_path = "DB_PASSWORD"
+            sub_path   = "DB_PASSWORD"
           }
 
           volume_mount {
@@ -82,23 +72,6 @@ resource "kubernetes_deployment" "i" {
             mount_path = "/app/config.yaml"
             sub_path   = "config.yaml"
           }
-
-          volume_mount {
-            name       = "tls"
-            mount_path = "/app/tls"
-          }
-
-          #          env_from {
-          #            config_map_ref {
-          #              name = kubernetes_config_map.i_web.metadata.0.name
-          #            }
-          #          }
-
-          #          env_from {
-          #            secret_ref {
-          #              name = kubernetes_secret.i_web.metadata.0.name
-          #            }
-          #          }
 
           resources {
             limits = {

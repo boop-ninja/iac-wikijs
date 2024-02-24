@@ -12,30 +12,13 @@ resource "kubernetes_config_map" "i_web" {
 
   data = {
     "config.yaml" = yamlencode({
-      ha = true
+      ha     = true
+      bindIP = "0.0.0.0"
       db = {
         type = "mysql"
         port = "3306"
         user = "wiki"
         db   = "wiki"
-        ssl = {
-          enabled = true
-          options = {
-            rejectUnauthorized = false
-            auto               = true
-            cert               = "/app/tls/tls.crt"
-            key                = "/app/tls/tls.key"
-          }
-        }
-        sslOptions = {
-          enabled = true
-          options = {
-            rejectUnauthorized = false
-            auto               = true
-            cert               = "/app/tls/tls.crt"
-            key                = "/app/tls/tls.key"
-          }
-        }
         host = local.database_host
         port = local.database_port
       }
