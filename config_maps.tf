@@ -18,10 +18,7 @@ resource "kubernetes_config_map" "i_web" {
         port     = "3306"
         user     = "wiki"
         db       = "wiki"
-        ssl      = {
-          auto = true
-          rejectUnauthorized = false
-        }
+        ssl      = true
         sslOptions = {
           rejectUnauthorized = false
           auto = true
