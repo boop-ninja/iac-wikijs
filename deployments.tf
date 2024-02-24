@@ -34,6 +34,14 @@ resource "kubernetes_deployment" "i" {
             name = kubernetes_config_map.i_web.metadata.0.name
           }
         }
+
+        # mount tls secret
+        volume {
+          name = "tls"
+          secret {
+            secret_name = kubernetes_secret.i_web.metadata.0.name
+          }
+        }
         container {
           name              = "${var.namespace}-web"
           image             = var.docker_images.application
@@ -53,6 +61,11 @@ resource "kubernetes_deployment" "i" {
             name       = "config"
             mount_path = "/app/config.yaml"
             sub_path   = "config.yaml"
+          }
+
+          volume_mount {
+            name       = "tls"
+            mount_path = "/app/tls"
           }
 
           #          env_from {
