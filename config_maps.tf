@@ -13,8 +13,8 @@ resource "kubernetes_config_map" "i_web" {
   data = {
     "config.yaml" = yamlencode(merge(yamldecode(file("${path.module}/resources/config.yaml")), {
       db = {
-        host = local.database_host
-        port = local.database_port
+        host     = local.database_host
+        port     = local.database_port
         password = random_password.a.result
       }
     }))

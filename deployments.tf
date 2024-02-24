@@ -32,7 +32,7 @@ resource "kubernetes_deployment" "i" {
         volume {
           name = "config"
           config_map {
-              name = kubernetes_config_map.i_web.metadata.0.name
+            name = kubernetes_config_map.i_web.metadata.0.name
           }
         }
         container {
@@ -41,32 +41,32 @@ resource "kubernetes_deployment" "i" {
           image_pull_policy = "Always"
 
           env {
-            name = "CONFIG_FILE"
+            name  = "CONFIG_FILE"
             value = "/app/config.yaml"
           }
 
           env {
-            name = "HA_ACTIVE"
+            name  = "HA_ACTIVE"
             value = "1"
           }
 
           volume_mount {
-              name       = "config"
-              mount_path = "/app/config.yaml"
-              sub_path = "config.yaml"
+            name       = "config"
+            mount_path = "/app/config.yaml"
+            sub_path   = "config.yaml"
           }
 
-#          env_from {
-#            config_map_ref {
-#              name = kubernetes_config_map.i_web.metadata.0.name
-#            }
-#          }
+          #          env_from {
+          #            config_map_ref {
+          #              name = kubernetes_config_map.i_web.metadata.0.name
+          #            }
+          #          }
 
-#          env_from {
-#            secret_ref {
-#              name = kubernetes_secret.i_web.metadata.0.name
-#            }
-#          }
+          #          env_from {
+          #            secret_ref {
+          #              name = kubernetes_secret.i_web.metadata.0.name
+          #            }
+          #          }
 
           resources {
             limits = {
