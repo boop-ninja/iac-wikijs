@@ -112,7 +112,7 @@ resource "kubernetes_deployment" "i" {
           }
           port {
             name           = "web"
-            container_port = 3000
+            container_port = 80
           }
         }
 
