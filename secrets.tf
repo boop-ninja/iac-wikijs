@@ -14,7 +14,9 @@ resource "kubernetes_secret" "i_db" {
     namespace = var.namespace
     labels    = local.common_labels
   }
-  data = random_password.a.result
+  data = {
+    DB_PASSWORD = random_password.a.result
+  }
 }
 
 resource "kubernetes_secret" "i_web" {

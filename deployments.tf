@@ -74,6 +74,7 @@ resource "kubernetes_deployment" "i" {
           volume_mount {
             mount_path = "/app/db_pass"
             name       = "db_pass"
+            sub_path = "DB_PASSWORD"
           }
 
           volume_mount {
