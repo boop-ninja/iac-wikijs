@@ -36,8 +36,8 @@ resource "kubernetes_config_map" "i_web" {
             key                = "/app/tls/tls.key"
           }
         }
-        host     = local.database_host
-        port     = local.database_port
+        host = local.database_host
+        port = local.database_port
       }
     })
   }
