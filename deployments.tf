@@ -42,6 +42,15 @@ resource "kubernetes_deployment" "i" {
             secret_name = kubernetes_secret.i_web.metadata.0.name
           }
         }
+
+        # Mount "kubernetes_secret" "i_db"
+        volume {
+          name = "db_pass"
+          secret {
+            secret_name = kubernetes_secret.i_db.metadata.0.name
+          }
+        }
+
         container {
           name              = "${var.namespace}-web"
           image             = var.docker_images.application
@@ -55,6 +64,16 @@ resource "kubernetes_deployment" "i" {
           env {
             name  = "HA_ACTIVE"
             value = "1"
+          }
+
+          env {
+            name  = "DB_PASS_FILE"
+            value = "/app/db_pass"
+          }
+
+          volume_mount {
+            mount_path = "/app/db_pass"
+            name       = "db_pass"
           }
 
           volume_mount {

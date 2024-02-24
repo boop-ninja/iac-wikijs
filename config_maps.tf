@@ -38,7 +38,6 @@ resource "kubernetes_config_map" "i_web" {
         }
         host     = local.database_host
         port     = local.database_port
-        password = random_password.a.result
       }
     })
   }
