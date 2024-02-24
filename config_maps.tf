@@ -13,7 +13,12 @@ resource "kubernetes_config_map" "i_web" {
   data = {
     "config.yaml" = yamlencode({
       ha     = true
+      port   = local.web_port
       bindIP = "0.0.0.0"
+      offline = false
+      logLevel = "info"
+      logFormat = "default"
+      bodyParserLimit = "10mb"
       db = {
         type = "mysql"
         port = "3306"

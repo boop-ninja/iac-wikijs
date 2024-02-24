@@ -16,8 +16,8 @@ resource "kubernetes_service" "i_web" {
 
     port {
       name        = "web"
-      port        = 80
-      target_port = 80
+      port        = local.web_port
+      target_port = local.web_port
     }
 
     type = "ClusterIP"
