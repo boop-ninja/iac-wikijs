@@ -17,7 +17,10 @@ resource "kubernetes_deployment" "i" {
       match_labels = local.common_labels
     }
 
+
+
     template {
+
       metadata {
         namespace = var.namespace
         labels = merge(local.common_labels, {
@@ -26,22 +29,44 @@ resource "kubernetes_deployment" "i" {
       }
 
       spec {
+        volume {
+          name = "config"
+          config_map {
+              name = kubernetes_config_map.i_web.metadata.0.name
+          }
+        }
         container {
           name              = "${var.namespace}-web"
           image             = var.docker_images.application
           image_pull_policy = "Always"
 
-          env_from {
-            config_map_ref {
-              name = kubernetes_config_map.i_web.metadata.0.name
-            }
+          env {
+            name = "CONFIG_FILE"
+            value = "/app/config.yaml"
           }
 
-          env_from {
-            secret_ref {
-              name = kubernetes_secret.i_web.metadata.0.name
-            }
+          env {
+            name = "HA_ACTIVE"
+            value = "1"
           }
+
+          volume_mount {
+              name       = "config"
+              mount_path = "/app/config.yaml"
+              sub_path = "config.yaml"
+          }
+
+#          env_from {
+#            config_map_ref {
+#              name = kubernetes_config_map.i_web.metadata.0.name
+#            }
+#          }
+
+#          env_from {
+#            secret_ref {
+#              name = kubernetes_secret.i_web.metadata.0.name
+#            }
+#          }
 
           resources {
             limits = {

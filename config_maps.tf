@@ -11,13 +11,13 @@ resource "kubernetes_config_map" "i_web" {
   }
 
   data = {
-    DB_TYPE   = "mysql"
-    DB_HOST   = local.database_host
-    DB_PORT   = local.database_port
-    DB_NAME   = var.database_name
-    DB_USER   = "wiki"
-    HA_ACTIVE = "true"
-    DB_SSL    = "{ rejectUnauthorized: false }"
+    "config.yaml" = yamlencode(merge(yamldecode(file("${path.module}/resources/config.yaml")), {
+      db = {
+        host = local.database_host
+        port = local.database_port
+        password = random_password.a.result
+      }
+    }))
   }
 }
 
