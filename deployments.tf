@@ -45,7 +45,7 @@ resource "kubernetes_deployment" "i" {
 
         # Mount "kubernetes_secret" "i_db"
         volume {
-          name = "db_pass"
+          name = "db-pass"
           secret {
             secret_name = kubernetes_secret.i_db.metadata.0.name
           }
@@ -73,7 +73,7 @@ resource "kubernetes_deployment" "i" {
 
           volume_mount {
             mount_path = "/app/db_pass"
-            name       = "db_pass"
+            name       = "db-pass"
             sub_path = "DB_PASSWORD"
           }
 
