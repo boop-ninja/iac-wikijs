@@ -41,6 +41,25 @@ resource "kubernetes_deployment" "i" {
           }
         }
 
+        init_container {
+          name  = "${var.namespace}-init"
+          image = "alpine:latest"
+
+          env {
+            name = "DOWNLOAD_URL"
+            value = "https://github.com/mbround18/wikijs-module-meilisearch/releases/download/v0.0.1/meilisearch.zip"
+          }
+
+          command = ["sh", "-c"]
+          args = [
+            "set -e; ",
+            "apk add --no-cache curl unzip; ",
+            "curl -L -o /tmp/meilisearch.zip $DOWNLOAD_URL; ",
+            "unzip /tmp/meilisearch.zip -d /wiki/server/modules/search/meilisearch.zip; ",
+            "rm /tmp/meilisearch.zip"
+          ]
+        }
+
         container {
           name              = "${var.namespace}-web"
           image             = var.docker_images.application
