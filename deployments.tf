@@ -1,3 +1,7 @@
+locals {
+  meilisearch_module_path = "/wiki/server/modules/search/meilisearch"
+}
+
 resource "kubernetes_deployment" "i" {
   depends_on = [
     kubernetes_namespace.i,
@@ -50,26 +54,18 @@ resource "kubernetes_deployment" "i" {
 
         init_container {
           name  = "${var.namespace}-init"
-          image = "alpine:latest"
-
-          env {
-            name  = "DOWNLOAD_URL"
-            value = "https://github.com/mbround18/wikijs-module-meilisearch/releases/download/v0.0.1/meilisearch.zip"
-          }
+          image = "mbround18/wikijs-meilisearch-module:latest"
 
           command = ["sh", "-c"]
           args = [
             "set -e; ",
-            "apk add --no-cache curl unzip; ",
-            "curl -L -o /tmp/meilisearch.zip $DOWNLOAD_URL; ",
-            "unzip /tmp/meilisearch.zip -d /wiki/server/modules/search/meilisearch; ",
-            "rm /tmp/meilisearch.zip;",
-            "chown -R 1000:1000 /wiki/server/modules/search/meilisearch;"
+            "cp -r /modules/meilisearch ${local.meilisearch_module_path};",
+            "chown -R 1000:1000 ${local.meilisearch_module_path};"
           ]
 
           volume_mount {
             name       = "meilisearch-module"
-            mount_path = "/wiki/server/modules/search/meilisearch"
+            mount_path = local.meilisearch_module_path
           }
         }
 
@@ -107,7 +103,7 @@ resource "kubernetes_deployment" "i" {
 
           volume_mount {
             name       = "meilisearch-module"
-            mount_path = "/wiki/server/modules/search/meilisearch"
+            mount_path = local.meilisearch_module_path
           }
 
           resources {

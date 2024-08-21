@@ -1,0 +1,6 @@
+services:
+  meilisearch-module:
+    image: mbround18/wikijs-meilisearch-module:latest
+    build:
+      context: ./modules/meilisearch
+      dockerfile: Dockerfile
