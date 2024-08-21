@@ -43,7 +43,9 @@ resource "kubernetes_deployment" "i" {
 
         volume {
           name = "meilisearch-module"
-          empty_dir {}
+          persistent_volume_claim {
+            claim_name = kubernetes_persistent_volume_claim.meilisearch_module.metadata.0.name
+          }
         }
 
         init_container {
