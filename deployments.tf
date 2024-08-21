@@ -41,6 +41,11 @@ resource "kubernetes_deployment" "i" {
           }
         }
 
+        volume {
+          name = "meilisearch-module"
+          empty_dir {}
+        }
+
         init_container {
           name  = "${var.namespace}-init"
           image = "alpine:latest"
@@ -55,9 +60,15 @@ resource "kubernetes_deployment" "i" {
             "set -e; ",
             "apk add --no-cache curl unzip; ",
             "curl -L -o /tmp/meilisearch.zip $DOWNLOAD_URL; ",
-            "unzip /tmp/meilisearch.zip -d /wiki/server/modules/search/meilisearch.zip; ",
-            "rm /tmp/meilisearch.zip"
+            "unzip /tmp/meilisearch.zip -d /wiki/server/modules/search/meilisearch; ",
+            "rm /tmp/meilisearch.zip;",
+            "chown -R 1000:1000 /wiki/server/modules/search/meilisearch;"
           ]
+
+          volume_mount {
+            name       = "meilisearch-module"
+            mount_path = "/wiki/server/modules/search/meilisearch"
+          }
         }
 
         container {
@@ -90,6 +101,11 @@ resource "kubernetes_deployment" "i" {
             name       = "config"
             mount_path = "/app/config.yaml"
             sub_path   = "config.yaml"
+          }
+
+          volume_mount {
+            name       = "meilisearch-module"
+            mount_path = "/wiki/server/modules/search/meilisearch"
           }
 
           resources {
