@@ -46,7 +46,7 @@ resource "kubernetes_deployment" "i" {
           image = "alpine:latest"
 
           env {
-            name = "DOWNLOAD_URL"
+            name  = "DOWNLOAD_URL"
             value = "https://github.com/mbround18/wikijs-module-meilisearch/releases/download/v0.0.1/meilisearch.zip"
           }
 
