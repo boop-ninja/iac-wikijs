@@ -58,7 +58,6 @@ resource "kubernetes_deployment" "i" {
 
           command = ["sh", "-c"]
           args = [
-            "set -e; ",
             "cp -r /modules/meilisearch ${local.meilisearch_module_path};",
             "chown -R 1000:1000 ${local.meilisearch_module_path};"
           ]
